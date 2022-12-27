@@ -3,14 +3,10 @@
 using std::cout;
 using std::endl;
 
-/* function: 功能
-*  parameters : 
-* returns :
+/* function:  Tente un deplacement.
+*  parameters : double dx, double dy
+* returns : bool
 */
-/*
- *	Tente un deplacement.
- */
-
 bool Chasseur::move_aux (double dx, double dy)
 {
 
@@ -22,11 +18,13 @@ bool Chasseur::move_aux (double dx, double dy)
 		_y += dy;
 
 		//如果玩家抵达宝藏位置则获胜，并给出获胜画面
+        //Si le joueur atteint l'emplacement du trésor, il gagne et reçoit l'écran gagnant.
 		if((_l->_treasor._x == (int)_x/Environnement::scale  && _l->_treasor._y == (int)_y/Environnement::scale+1) ||(_l->_treasor._x == (int)_x/Environnement::scale  && _l->_treasor._y == (int)_y/Environnement::scale-1))
 			partie_terminee(true);
 
 
 	// 如果玩家移动到传送门则给传送到另一个传送门
+    //Si le joueur se déplace vers un portail, il est téléporté vers un autre portail.
 	if((int) (_x/Environnement::scale) == _l->_marks[0]._x && (int) (_y/Environnement::scale) == _l->_marks[0]._y  ){
 			_x = _l->_marks[1]._x * Environnement::scale ;
 			_y = _l->_marks[1]._y * Environnement::scale ;
@@ -45,10 +43,10 @@ bool Chasseur::move_aux (double dx, double dy)
 	return false;
 }
 
-/*
- *	Constructeur.
- */
-
+/* function: Chasseur  Constructeur
+*  parameters : Labyrinthe* l
+* returns : Chasseur
+*/
 Chasseur::Chasseur (Labyrinthe* l) : Mover (100, 80, l, 0)
 {
 	// initialise les sons.
@@ -63,10 +61,10 @@ Chasseur::Chasseur (Labyrinthe* l) : Mover (100, 80, l, 0)
 	wait_time = 300;
 }
 
-/*
- *	Fait bouger la boule de feu (ceci est une exemple, � vous de traiter les collisions sp�cifiques...)
- */
-
+/* function: Fait bouger la boule de feu (ceci est une exemple, � vous de traiter les collisions sp�cifiques...)
+*  parameters : float dx, float dy
+* returns : bool
+*/
 bool Chasseur::process_fireball (float dx, float dy)
 {
 	// calculer la distance entre le chasseur et le lieu de l'explosion.
@@ -83,6 +81,7 @@ bool Chasseur::process_fireball (float dx, float dy)
 	}
 
 // 如果火球打到守卫，则守卫会跌倒
+//Si la boule de feu touche le garde, celui-ci tombera.
 	for(int i = 1 ; i <_l->_nguards; i++){
 
 	
@@ -114,9 +113,10 @@ bool Chasseur::process_fireball (float dx, float dy)
 }
 
 /*
- *	Tire sur un ennemi.
- */
-
+ * function: Tire sur un ennemi
+*  parameters : int angle_vertical
+*  returns :
+*/
 void Chasseur::fire (int angle_vertical)
 {
 	message ("Hunter HP : %d  Woooshh...",this->hp);
@@ -130,12 +130,10 @@ void Chasseur::fire (int angle_vertical)
 }
 
 /*
- *	Clic droit: par d�faut fait tomber le premier gardien.
- *
- *	Inutile dans le vrai jeu, mais c'est juste pour montrer
- *	une utilisation des fonctions � tomber � et � rester_au_sol �
- */
-
+ * function: Clic droit: par defaut fait tomber le premier gardien. Inutile dans le vrai jeu, mais c'est juste pour montrer ,ne utilisation des fonctions � tomber � et � rester_au_sol �
+*  parameters : bool shift, bool control
+*  returns :
+*/
 void Chasseur::right_click (bool shift, bool control)
 {
 	
@@ -146,6 +144,7 @@ void Chasseur::right_click (bool shift, bool control)
 }
 
 //玩家受到火球伤害，则hp-5 如果hp=0，则游戏结束。
+//Le joueur subit les dégâts de la boule de feu, puis le hp -5 Si hp=0, le jeu est terminé.
 void Chasseur::hurt(){
 	this->hp  = this->hp -5;
 	message("Hunter HP : %d",this->hp);
