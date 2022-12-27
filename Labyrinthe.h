@@ -28,7 +28,7 @@ public:
 
 
 
-//结构体 Picture 用于保存 墙壁上的壁画
+//structure Picture pour sauver les peintures murales
 struct Picture
 {
 	char type_P;
@@ -37,13 +37,13 @@ struct Picture
 	int direction; 
 };
 
-// 结构体 Object 用来保存 box，玩家，守卫，传送门，宝藏等 位置。
+// La structure Objet est utilisée pour indiquer l'emplacement des boîtes, des joueurs, des gardes, des portails, des trésors, etc.
 struct Object
 {
 	int x ;
 	int y;
 };
-// 结构SousWall用于存储 围墙的起点位置 和终点位置。
+// La structure SousWall est utilisée pour stocker les positions de départ et d'arrivée de la clôture.
 struct SousWall
 {
 	int x1;
