@@ -18,9 +18,9 @@ class Labyrinthe;
 
 class Gardien : public Mover {
 public:
-	int speed_shoot; // 守卫 射速
-	int collision_time ; // 冲撞时间
-	double move_ds ; // 守卫移动速度
+	int speed_shoot; // Vitesse de tir des gardes
+	int collision_time ; // Temps de perforation
+	double move_ds ; // Vitesse de déplacement des gardes
 	Gardien (Labyrinthe* l, const char* modele) : Mover (120, 80, l, modele)
 	{
 		speed_shoot = 0;
@@ -32,7 +32,7 @@ public:
 	// mon gardien pense tr�s mal!
 	void update (void) {
 		
-	//如果守卫冲撞 墙壁3次则 守卫反向移动。
+	// //Si le garde heurte le mur 3 fois, le garde se déplace dans la direction opposée.
 		if(collision_time == 3){
 			move_ds = 0 - move_ds;
 			collision_time = 0;
@@ -40,7 +40,7 @@ public:
 			
 		 
 
-		//判断守卫是否冲撞墙壁。
+		//Déterminez si les gardes chargent le mur.
 		if(!move(move_ds,move_ds))
 			collision_time ++;
 	
@@ -49,28 +49,28 @@ public:
 		int y_player = _l->_guards[0]->_y;
 		int x_enemy = _x;
 		int y_enemy = _y;
-		//计算玩家和守卫的距离
+		//Calcul de la distance entre le joueur et les gardes
 		float dis_y = (float)abs(y_player - y_enemy);
 		float dis_x = (float)abs(x_player - x_enemy);
 		float dis_total = dis_y*dis_y + dis_x*dis_x ;
 
-		//玩家等待时间-1， 如果玩家等待时间为负数 则让它保持为0；
+		//Temps d'attente du joueur - 1, ou si le temps d'attente du joueur est négatif, laissez-le à 0.
 		((Chasseur*)_l->_guards[0])->wait_time --;
 	
 		if (((Chasseur*)_l->_guards[0])->wait_time < 0)
 		{
 			((Chasseur*)_l->_guards[0])->wait_time = 0;
 		}
-		//玩家等待时间为0，且hp不等于100，则开始恢复血量。
+		//Si le joueur attend 0 et que la hp n'est pas égale à 100, la récupération du sang commence.
 		if(((Chasseur*)_l->_guards[0])->wait_time == 0 && ((Chasseur*)_l->_guards[0])->hp != 100){
 			((Chasseur*)_l->_guards[0])->hp ++;
 			message("Hunter HP : %d",((Chasseur*)_l->_guards[0])->hp);
 		}
-// 如果玩家和守卫距离<= 25000 且 中间没有墙。则会被敌人发现并开火。
+// Si la distance entre le joueur et le garde est <= 25000 et qu'il n'y a pas de mur entre les deux. le joueur sera repéré et attaqué par l'ennemi.
 	if(dis_total <= 25000 && !existWall()){
 		speed_shoot ++;
 		int angle = (int)(atan(dis_y/dis_x)*180/PI) ;
-		//敌人转向
+		//L'ennemi se retourne
 		if (y_enemy == y_player && x_player > x_enemy)
 			_angle = 270;
 		else if (y_enemy == y_player && x_player < x_enemy)
@@ -79,17 +79,17 @@ public:
 			_angle = 0;
 		else if (x_player == x_enemy && y_player < y_enemy)
 			_angle = 180;
-		//右下角
+		//右下角Coin inférieur droit
 		else if (x_player > x_enemy &&  y_player < y_enemy)
 		 	_angle = 270 -angle;
-		//左下角
+		//左下角Coin inférieur gauche
 		else if (x_player < x_enemy && y_player < y_enemy)
 			_angle = 90+angle;
-		//左上角
+		//左上角En haut à gauche
 		else if (x_player < x_enemy && y_player > y_enemy)
 			_angle= 90-angle;
 		
-		// //右上角
+		// //右上角Coin en haut à droite
 		else if (x_player > x_enemy && y_player > y_enemy)
 		    _angle= 270+angle;
 		if(speed_shoot == 100){
@@ -103,7 +103,7 @@ public:
 
 		
 	};
-	// 守卫以z字行进行移动 巡逻。
+	// Les gardes se déplacent en zigzag pour les patrouilles.
 	bool move (double dx, double dy) { 
 
 	int old_x = _x;
@@ -129,7 +129,7 @@ public:
 	return false;
  }
 
-	//守卫射击
+	//Les gardes tirent
 	void fire (int angle_vertical) {
 	
 		int angle_H = 360-_angle+random()%5;
@@ -169,7 +169,7 @@ public:
 
 	}
 
-//判断玩家和守卫之间是否有墙
+//Déterminer s'il y a un mur entre le joueur et le gardien
 bool existWall(){  
 	
 	 int x_player =  (int)(_l->_guards[0] ->_x/Environnement::scale);
