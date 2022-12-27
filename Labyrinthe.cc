@@ -254,7 +254,7 @@ for (int i = 0; i < _npicts; i++)
 
 
 }
-//读取硬盘中 以.txt结尾的地图文件，并返回 char类的Vector数组 R^2。
+////Lecture d'un fichier de carte se terminant par .txt sur le disque dur et renvoie un tableau vectoriel de classe char, R^2.
 vector<vector<char> > Labyrinthe::loadMap(char *filename)
 
 {
@@ -292,7 +292,7 @@ vector<vector<char> > Labyrinthe::loadMap(char *filename)
 	cout<<"LoadMap ok !"<<endl;
 	return map;
 }
-//获取地图的宽度。 并返回 int
+//Obtenir la largeur de la carte. et retourner int
 int getMapWidth(vector<vector<char> > map)
 {
 	int width = 0;
@@ -305,7 +305,7 @@ int getMapWidth(vector<vector<char> > map)
 	}
 	return width;
 }
-//获取 墙壁上的贴纸 的数组
+//Obtenir un tableau d'images sur le mur
 vector<Picture> getPictures(vector<vector<char> > map)
 {
 	vector<Picture> ps;
@@ -365,7 +365,7 @@ vector<Picture> getPictures(vector<vector<char> > map)
 	}
 	return ps;
 }
-// 根据 obj的 内容获取 对应的 内容数组。
+// Obtenir le tableau de contenu correspondant en fonction du contenu de l'objet.
 vector<Object> getObjects(char obj, vector<vector<char > > map)
 {
 
@@ -386,7 +386,7 @@ vector<Object> getObjects(char obj, vector<vector<char > > map)
 	return objects;
 }
 
-//获取墙的数组
+//Obtenir un tableau de murs
 vector<SousWall> getWalls(vector<vector<char > > map ){
 	vector<SousWall> walls;
 	vector<Object> plus  = getObjects('+',map);
